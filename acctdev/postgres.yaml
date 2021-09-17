@@ -20,6 +20,7 @@ spec:
         resources:
           requests:
             storage: 2Gi
+            
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.33-0
