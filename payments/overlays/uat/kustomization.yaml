@@ -1,0 +1,7 @@
+nameSuffix: -dev
+
+bases:
+  - ../../base/postgres
+
+patchesStrategicMerge:
+  - postgres.yaml

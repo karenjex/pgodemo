@@ -1,0 +1,12 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: payments
+spec:
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-ha:centos8-13.3-1
+  postgresVersion: 13
+
+  monitoring:
+    pgmonitor:
+      exporter:
+        image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.0-0
