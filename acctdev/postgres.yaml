@@ -20,7 +20,7 @@ spec:
         resources:
           requests:
             storage: 2Gi
-            
+
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.33-0
@@ -29,7 +29,7 @@ spec:
       repos:
       - name: repo1
         schedules:
-          full: "0 1 * * 7"
+          full: "0 1 * * 0"
           incremental: "0 1 * * 1-6"
         volume:
           volumeClaimSpec:
