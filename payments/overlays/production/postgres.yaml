@@ -39,12 +39,3 @@ spec:
             resources:
               requests:
                 storage: 1Gi
-  patroni:
-    dynamicConfiguration:
-      postgresql:
-        parameters:
-          max_parallel_workers: 2
-          max_worker_processes: 2
-          shared_buffers: 512MB
-          work_mem: 5MB
-          archive_timeout: 600
