@@ -3,6 +3,7 @@ kind: PostgresCluster
 metadata:
   name: acctdev
 spec:
+  # crunchy-postgres:centos8-13.4-1
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-ha:centos8-13.3-1
   openshift: true
   port: 5432
@@ -50,6 +51,3 @@ spec:
           max_worker_processes: 2
           shared_buffers: 256MB
           work_mem: 2MB
-
-# tag for upgrade:
-# crunchy-postgres:centos8-13.4-1
