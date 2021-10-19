@@ -4,7 +4,7 @@ metadata:
   name: acctdev
 spec:
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-ha:centos8-13.3-1
-  openshift: true
+  openshift: false
   port: 5432
   postgresVersion: 13
   instances:
