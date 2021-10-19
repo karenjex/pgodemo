@@ -3,5 +3,5 @@ kind: PostgresCluster
 metadata:
   name: payments
 spec:
-  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-ha:centos8-13.3-1
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:centos8-13.4-1
   postgresVersion: 13
