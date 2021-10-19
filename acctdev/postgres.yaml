@@ -4,7 +4,7 @@ metadata:
   name: acctdev
 spec:
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-ha:centos8-13.3-1
-  openshift: false
+  openshift: true
   port: 5432
   postgresVersion: 13
   instances:
@@ -51,9 +51,5 @@ spec:
           shared_buffers: 256MB
           work_mem: 2MB
 
-<<<<<<< HEAD
-# tag for upgrade centos8-13.4-4.7.2
-=======
-# 13.4 tag: 13.4-4.7.2
-# centos8-13.4-1
->>>>>>> openshift
+# tag for upgrade:
+# crunchy-postgres:centos8-13.4-1
