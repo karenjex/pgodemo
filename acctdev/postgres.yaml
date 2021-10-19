@@ -23,9 +23,7 @@ spec:
 
   backups:
     pgbackrest:
-      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.33-0
-      repoHost:
-        dedicated: {}
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.35-0
       repos:
       - name: repo1
         schedules:
@@ -42,7 +40,7 @@ spec:
   monitoring:
     pgmonitor:
       exporter:
-        image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.0-0
+        image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.3-0
 
   patroni:
     dynamicConfiguration:
@@ -53,4 +51,9 @@ spec:
           shared_buffers: 256MB
           work_mem: 2MB
 
+<<<<<<< HEAD
 # tag for upgrade centos8-13.4-4.7.2
+=======
+# 13.4 tag: 13.4-4.7.2
+# centos8-13.4-1
+>>>>>>> openshift

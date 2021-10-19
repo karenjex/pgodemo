@@ -40,11 +40,14 @@ spec:
               requests:
                 storage: 1Gi
 
+<<<<<<< HEAD
   monitoring:
     pgmonitor:
       exporter:
         image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.0-0
 
+=======
+>>>>>>> openshift
   patroni:
     dynamicConfiguration:
       postgresql:
