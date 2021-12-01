@@ -10,7 +10,7 @@ spec:
   postgresVersion: 13
   instances:
     - name: 'pgc'
-      replicas: 2
+      replicas: 3
       resources:
         limits:
           cpu: 1.0
