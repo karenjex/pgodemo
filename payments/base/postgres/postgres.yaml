@@ -9,7 +9,7 @@ spec:
          - paymentsdb
          - accountsdb
   image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.5-0
-  openshift: true
+  openshift: false
   port: 5432
   postgresVersion: 13
   instances:

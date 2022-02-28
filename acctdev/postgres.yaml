@@ -6,7 +6,7 @@ spec:
   # crunchy-postgres:ubi8-13.4-1
   # crunchy-postgres:ubi8-13.5-0
   image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.4-1
-  openshift: true
+  openshift: false
   port: 5432
   postgresVersion: 13
   instances:
@@ -22,6 +22,7 @@ spec:
         resources:
           requests:
             storage: 2Gi
+
 
   backups:
     pgbackrest:
