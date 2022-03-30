@@ -19,7 +19,7 @@ spec:
         name: keycloak
         command:
         - /opt/keycloak/bin/kc.sh
-        - start
+        - start-dev
         env:
         - name: DB_VENDOR
           value: "postgres"
