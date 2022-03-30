@@ -18,9 +18,8 @@ spec:
       - image: quay.io/keycloak/keycloak:17.0.1
         name: keycloak
         command:
-        - tail
-        - -f
-        - /dev/null
+        - /opt/keycloak/bin/kc.sh
+        - start
         env:
         - name: DB_VENDOR
           value: "postgres"
