@@ -3,15 +3,18 @@ kind: PostgresCluster
 metadata:
   name: acctdev
 spec:
+  ###################################################################
+  ##  General Information about PostgreSQL
+  ###################################################################
   # crunchy-postgres:ubi8-13.5-0
   # crunchy-postgres:ubi8-13.6-0
-  image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.5-0
+  image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.6-0
   openshift: true
   port: 5432
   postgresVersion: 13
   instances:
     - name: 'pgc'
-      replicas: 2
+      replicas: 3
       resources:
         limits:
           cpu: 1.0
@@ -23,7 +26,9 @@ spec:
           requests:
             storage: 2Gi
 
-
+  ###################################################################
+  ##  Backups
+  ###################################################################
   backups:
     pgbackrest:
       image: registry.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.36-0
@@ -40,11 +45,17 @@ spec:
               requests:
                 storage: 2Gi
 
+  ###################################################################
+  ##  Crunchy Collect Sidecar (Monitoring)
+  ###################################################################
   monitoring:
     pgmonitor:
       exporter:
         image: registry.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.5-0
 
+  ###################################################################
+  ##  PostgreSQL Configuration
+  ###################################################################
   patroni:
     dynamicConfiguration:
       postgresql:

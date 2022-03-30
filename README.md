@@ -76,9 +76,10 @@ oc create namespace keycloak
 ### Slide 2: About Me
 - Answer the question: Why should I listen to you?
 
-    > My name is Brian Pace.  I am a Sr. Data Solutions Architect here at Crunchy Data.  With 30+ years of database experience in designing, tuning, supporting, and running databases at an enterprise scale, I know have the privilege to partner that experience with our customers.  In my role here at Crunchy I get to work closely with of our large enterprise customers, and even some of our embedded customers, who are running Postgres inside of containers on various Kubernetes platforms.
+    > My name is Brian Pace.  I am a Sr. Data Architect here at Crunchy Data.  With 30+ years of database experience in designing, tuning, supporting, and running databases at an enterprise scale, I know have the privilege to partner that experience with our customers.  In my role here at Crunchy I get to work closely with of our large enterprise customers, and even some of our embedded customers, who are running Postgres inside of containers on various Kubernetes platforms.
 
 ### Slide 3: Crunchy Data
+- Having the right partner ensures a higher degree of success...
 - Establish creditability of Crunchy Data with Postgres
 
     > 	Regardless of where you are at on your journey to containers, running stateful applications in containers creates some unique opportunities.  
@@ -95,32 +96,34 @@ oc create namespace keycloak
 ### Slide 4: Crunchy Postgres for Kubernetes
 - Establish creditability with Operators and Kubernetes
 
-	> Containers Background:
+	> Containers Background
 	>   - For Crunchy, this journey began back in 2014 when containers were then called Cartridges.
 	>	- Started asking the question, "Can we and even should we run Postgres inside of containers?"
 	>   - If so, what would be the best practices for doing so…
 	>   - Around this same time is when Google released Kubernetes as an open source orchestrator for containers.
 	>   - At Crunchy, we recognized the value of Kubernetes and invested heavily in developing an Operator that will automate various life cycles of Postgres inside of Kubernetes.
 
-    > Operator Background:
+	> Operator Background
 	>   - In 2016, the development of the Operator officially began.
 	>   - After 1 year of development, the operator was released for GA in 2017 and has been evolving ever since.
 	>   - The Crunchy Operator is one of the first 3 operators ever developed.  
 	>   - The Operator was built from many years of experience with the technology.
 	>   - In addition we listened closely our clients and how their and other development worlds were evolving.
-    >   - This great history, decades of experience, and observing the evolution of development and IT operations all serves as fuel for driving innovation in our Operator solution.
+	>   - This great history, decades of experience, and observing the evolution of development and IT operations all serves as fuel for driving innovation in our Operator solution.
 
 ### Slide 5: Crunchy Postgres for Kubernetes
 - Determine exposure to Postgres, Kubernetes
-- Agenda or goals for the meeting.
 
-> What is your experience with PostgreSQL today?
-> Do you have any stateful applications deployed in Kubernetes?
-> Have you used our Operator before?
+> - What is your experience with PostgreSQL today?
+> - Do you have any stateful applications deployed in Kubernetes?
+> - Have you used our Operator before?
+
+- Agenda or goals for the meeting.
 
 ### Slide 6: Easy to Get Started
 > Show the GitHub Repository
 > Deploy the Operator
+
 ```
 oc apply -k kustomize/install
 oc get pods -n postgres-operator
@@ -174,7 +177,7 @@ kubectl apply -k acctdev
 kubectl exec -c database -n finance -it $(kubectl get pod -l postgres-operator.crunchydata.com/role=master -o name -n finance) -- bash
 
 psql -c "alter user postgres with password 'Welcome1'"
-$PGROOT/bin/pgbench --initialize --scale=10 acctdev; $PGROOT/bin/pgbench --time=60  acctdev
+$PGROOT/bin/pgbench --initialize --scale=10 acctdev; $PGROOT/bin/pgbench --time=600  acctdev
 ```
 
 > PAUSE FOR QUESTIONS
@@ -186,6 +189,10 @@ $PGROOT/bin/pgbench --initialize --scale=10 acctdev; $PGROOT/bin/pgbench --time=
 ### Slide 8:  Monitoring
 -   Production grade starts with good monitoring.
 -   Talk through slide and show various monitoring pages.
+-	Things to Highlight
+	- POD Details: resource utilization from within the cgroup
+	- PostgreSQL Details
+	- pgBackRest details (note, pgbackrest data only collected every 10 minutes or so)
 
 ### Slide 9:  Auto Management and Healing
 -   Production grade continues with High Availability
