@@ -17,6 +17,10 @@ spec:
       containers:
       - image: quay.io/keycloak/keycloak:17.0.1
         name: keycloak
+        command:
+        - tail
+        - -f
+        - /dev/null
         env:
         - name: DB_VENDOR
           value: "postgres"
