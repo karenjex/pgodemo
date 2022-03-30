@@ -1,4 +1,5 @@
 nameSuffix: -prod
+namespace: finance-prod
 
 generatorOptions:
   disableNameSuffixHash: true

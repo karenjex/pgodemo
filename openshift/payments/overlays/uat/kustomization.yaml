@@ -1,4 +1,5 @@
 nameSuffix: -uat
+namespace: finance-uat
 
 bases:
   - ../../base/postgres

@@ -1,4 +1,5 @@
 nameSuffix: -dev
+namespace: finance
 
 bases:
   - ../../base/postgres
