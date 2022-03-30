@@ -1,4 +1,4 @@
-nameSuffix: -dev
+nameSuffix: -uat
 
 bases:
   - ../../base/postgres
