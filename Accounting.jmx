@@ -39,7 +39,7 @@
           <stringProp name="dataSource">financedb</stringProp>
           <stringProp name="username">acctdev</stringProp>
           <boolProp name="keepAlive">false</boolProp>
-          <stringProp name="dbUrl">jdbc:postgresql://192.168.2.80:5432/acctdev</stringProp>
+          <stringProp name="dbUrl">jdbc:postgresql://acctdev-openshift:5432/acctdev</stringProp>
           <stringProp name="transactionIsolation">DEFAULT</stringProp>
           <stringProp name="initQuery"></stringProp>
           <boolProp name="preinit">false</boolProp>
@@ -307,7 +307,7 @@ where tid=?</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="VersionCheck" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="VersionCheck" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
