@@ -1,49 +1,43 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: acctdev
+  name: payments
 spec:
-  # crunchy-postgres:ubi8-13.4-1
-  # crunchy-postgres:ubi8-13.5-0
-  image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.4-1
-  openshift: false
+  users:
+    - name: paymentuser
+      databases:
+         - paymentsdb
+         - accountsdb
+  image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.6-0
+  openshift: true
   port: 5432
   postgresVersion: 13
   instances:
     - name: 'pgc'
-      replicas: 2
+      replicas: 1
       resources:
         limits:
           cpu: 1.0
-          memory: 2Gi
+          memory: 1Gi
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 2Gi
-
+            storage: 1Gi
 
   backups:
     pgbackrest:
-      image: registry.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.35-0
+      image: registry.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.36-0
       repos:
       - name: repo1
-        schedules:
-          full: "0 1 * * 0"
-          incremental: "0 1 * * 1-6"
         volume:
           volumeClaimSpec:
             accessModes:
             - "ReadWriteOnce"
             resources:
               requests:
-                storage: 2Gi
-
-  monitoring:
-    pgmonitor:
-      exporter:
-        image: registry.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.4-0
+                storage: 1Gi
 
   patroni:
     dynamicConfiguration:
@@ -52,4 +46,5 @@ spec:
           max_parallel_workers: 2
           max_worker_processes: 2
           shared_buffers: 256MB
-          work_mem: 2MB
+          work_mem: 10MB
+          archive_timeout: 600

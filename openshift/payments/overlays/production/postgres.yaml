@@ -3,7 +3,7 @@ kind: PostgresCluster
 metadata:
   name: payments
 spec:
-  image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.5-0
+  image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.6-0
   postgresVersion: 13
   instances:
     - name: 'pgc'
@@ -42,7 +42,7 @@ spec:
   monitoring:
     pgmonitor:
       exporter:
-        image: registry.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.4-0
+        image: registry.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.5-0
 
   patroni:
     dynamicConfiguration:
