@@ -1,0 +1,4 @@
+namespace: finance
+
+resources:
+- postgres.yaml
