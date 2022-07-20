@@ -6,12 +6,12 @@ Preference is to perform all demos using OpenShift unless the client is using a 
 
 ## [-] Check Loadbalancer for ArgoCD, AcctDev, Keycloak, and Grafana:
 ```
-	kubectl get services -n finance
-	kubectl get services -n keycloak
-	kubectl get services -n pgmonitor
-	kubectl get services -n argocd
+kubectl get services -n finance
+kubectl get services -n keycloak
+kubectl get services -n pgmonitor
+kubectl get services -n argocd
 
-	sudo vi /etc/hosts
+sudo vi /etc/hosts
 ```
 
 
@@ -26,7 +26,6 @@ Preference is to perform all demos using OpenShift unless the client is using a 
 oc login …
 
 cd /app/k8s/crunchy/pgo/v5/pgodemo/openshift|rancher/postgres-operator-examples
-
 ```
 
 ## [-] Clean Up Environment:
@@ -36,15 +35,13 @@ cd /app/k8s/crunchy/pgo/v5/pgodemo/openshift|rancher/postgres-operator-examples
 - Uninstall pgMonitor
 
 ## [-] Delete Operator
-	First make sure there are no postgresclusters still active:
-	```
-    kubectl get postgresclusters --all-namespaces
-	```
+First make sure there are no postgresclusters still active:
 
-	Delete operator:
-	```
+    kubectl get postgresclusters --all-namespaces
+
+Delete operator:
+
     kubectl delete -k install
-    ```
 
 
 ## [-] Create Namespaces:
@@ -58,7 +55,7 @@ kubectl create namespace keycloak
 
 ## [-] Update Manifest for OpenShift (if applicable):
 - For each postgres manifest, ensure that openshift key is set to true if running on OpenShift, otherwise set to false.
-- For monitoring, ensure that fsGroup is commented out in all deploy* yaml files if on OpenShift.
+- For monitoring, ensure that `fsGroup` is commented out in all `deploy*` yaml files if on OpenShift.
 - Change kustomization manifest for monitoring to use pgmonitor namespace.
 
 ## [-] Setup Jmeter
@@ -82,7 +79,7 @@ My name is Brian Pace.  I am a Sr. Data Architect here at Crunchy Data.  With 30
 
 ## Slide 3: Crunchy Data
 > Having the right partner ensures a higher degree of success...
-> Establish creditability of Crunchy Data with Postgres
+> Establish credibility of Crunchy Data with Postgres
 
 - Regardless of where you are at on your journey to containers, running stateful applications in containers creates some unique opportunities.  
 
@@ -96,7 +93,7 @@ My name is Brian Pace.  I am a Sr. Data Architect here at Crunchy Data.  With 30
 - For a lot of our team, the experience with Postgres goes back very close to its original release to the open source community in 1996. 
 
 ## Slide 4: Crunchy Postgres for Kubernetes
-> Establish creditability with Operators and Kubernetes
+> Establish credibility with Operators and Kubernetes
 
 ### Containers Background
 - For Crunchy, this journey began back in 2014 when containers were then called Cartridges.
@@ -142,8 +139,8 @@ kubectl get pods -n pgmonitor
 
 **Now that was Easy**
 
-## Slide 7: Fully Declaritive
-> Introduce concept of Fully Declaritive PostgreSQL (manifest)
+## Slide 7: Fully Declarative
+> Introduce concept of Fully Declarative PostgreSQL (manifest)
 
 There are now two categories of methods for building out a database environment:  **Imperative and Declarative**.
 		
@@ -185,11 +182,9 @@ $PGROOT/bin/pgbench --initialize --scale=10 acctdev; $PGROOT/bin/pgbench --time=
 > PAUSE FOR QUESTIONS
 
 >   Start Jmeter
-```
-- Navigate to 'View Results in Table' and ensure 'Scroll automatically' is checked
 
-- Waituntil transactions start to flow through
-```
+- Navigate to `View Results in Table` and ensure `Scroll automatically` is checked
+- Wait until transactions start to flow through
 
 ## Slide 8:  Monitoring
 -   Production grade starts with good monitoring.
@@ -212,7 +207,7 @@ HA is occurring at three levels:
 	- At this level the operator is ensuring the environment always looks like our manifest/description		
 	- Using OpenShift console, demonstrate HA by deleting the acctdev-primary service.
 
->       - Show how quickly the missing service was detected and corrected.
+> Show how quickly the missing service was detected and corrected.
 
 - Level 3:  Postgres
 	- While the operator is ensuring that everything is available at the Kubernetes level, a consensus based leader election process is watching the Postgres cluster itself.
@@ -283,7 +278,7 @@ kubectl apply -k acctdev -n finance
 >   - This is huge as it avoids passing around a password that someone could use to bypass the application and perform actions in the database.
 		
 >   Using Argo, create an application called keycloak and deploy the stack (sync).
-```	
+
 	Navigate to Application page (top icon on navigation bar)
 	Click on New App button.
 	Provide the following:
@@ -295,7 +290,6 @@ kubectl apply -k acctdev -n finance
 		Namespace: keycloak
 	Click Create
 	Click Sync and then Synchronize
-```
 
 >   Show the manifest and overlays for payments.
 >   - Base configuration is used to ensure a baseline for all database builds.
@@ -310,35 +304,39 @@ kubectl apply -k acctdev -n finance
 ```
 
 >   After both dev/prod are deployed, make a postgres parameter change to the base postgres manifest.
-```
-	Change work_mem from 5MB to 10MB.
-	Commit change and push to repo.
-	Click refresh in ArgoCD to show that now dev and prod are out of sync.
-	Simulate slow rollout by applying to dev first and then prod
-```
+
+- Change `work_mem` from 5MB to 10MB.
+- Commit change and push to repo.
+- Click refresh in ArgoCD to show that now dev and prod are out of sync.
+- Simulate slow rollout by applying to dev first and then prod
 
 ## Slide 12: Infrastructure Agnostic
 - Deploy anywhere...on-prem/off-prem
 - Many Kubernetes variants: Kubernetes, OpenShift, EKS, AKS, GKE, Rancher
 
 ## Slide 13: Batteries Included
--   Highlight the Postgres versions, many extensions and options.
--   End with a brief note about UBI and CentOS images.
+- Highlight the Postgres versions, many extensions and options.
+- End with a brief note about UBI and CentOS images.
 
 # References
 
 ## Useful Links
-JMeter:  https://jmeter.apache.org/download_jmeter.cgi
-Crunchy Operator 5.0 Preview Doc:  https://pgo5-docs-preview.crunchydata.com/quickstart/
+
+- [JMeter](https://jmeter.apache.org/download_jmeter.cgi)
+- [Crunchy Operator 5.0 Preview Doc](https://pgo5-docs-preview.crunchydata.com/quickstart/)
 
 ## Install ArgoCD
+```
 oc create namespace argocd
 oc apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 oc patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 oc get secret -n argocd argocd-initial-admin-secret  --template={{.data.password}} | base64 -d
+```
 
 If not running on OpenShift or environment that does not have a load balancer:
+```
 kc patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+```
 
 ## GitOps
 https://www.gitops.tech/
