@@ -49,15 +49,16 @@ cd rancher/postgres-operator-examples
 ## [-] Delete Operator
 
 1. Make sure there are no postgresclusters still active
-
-    kubectl get postgresclusters --all-namespaces
+```
+kubectl get postgresclusters --all-namespaces
+```
 
 2. Delete operator
+```
+kubectl delete -k install/default
+```
 
-    kubectl delete -k install/default
-
-
-## [-] Create Namespaces:
+## [-] Create Namespaces
 ```
 kubectl create namespace pgmonitor
 kubectl create namespace finance
@@ -66,15 +67,17 @@ kubectl create namespace finance-prod
 kubectl create namespace keycloak
 ```
 
-## [-] Update Manifest for OpenShift (if applicable):
+## [-] Update Manifest for OpenShift (if applicable)
+
 - For each postgres manifest, ensure that openshift key is set to
   `true` if running on OpenShift, otherwise set to `false`
-- For monitoring, ensure that `fsGroup` is commented out in all `deploy*` yaml files if on OpenShift.
-- Change kustomization manifest for monitoring to use pgmonitor namespace.
+- For monitoring, ensure that `fsGroup` is commented out in all `deploy*`
+  yaml files if on OpenShift
+- Change kustomization manifest for monitoring to use pgmonitor namespace
 
 ## [-] Setup Jmeter
 - Start Jmeter
-- Open Accounting.jmx test.
+- Open Accounting.jmx test
 - Clear all (broom icons) previous runs
 
 ## [-] Prepare terminal windows:
@@ -126,35 +129,36 @@ great partner who understands both Kubernetes and the database inside and out.
 > Establish credibility with Operators and Kubernetes
 
 ### Containers Background
-- In 2014, when containers were then called Cartridgesm Crunchy 
+- In 2014, when containers were then called Cartridges, Crunchy 
   started asking the question: "Can we and even should we run Postgres
   inside containers?"
 - If so, what would be the best practices for doing so?
 - Around this same time Google released Kubernetes as an open source
-  orchestrator for containers.
+  orchestrator for containers
 - Crunchy recognized the value of Kubernetes and invested heavily
   in developing a Kubernetes operator to automate various life cycles
-  and apply its expertise in best practices around Postgres in Kubernetes.
+  and apply its expertise in best practices around Postgres in Kubernetes
 
 ### Operator Background
 - In 2016, the development of the Operator officially began and was released
-  for GA in 2017, with continuous improvements ever since.
-- The Crunchy Operator is one of the first 3 operators ever developed.  
-- The Operator was built from many years of experience with the technology.
+  for GA in 2017, with continuous improvements ever since
+- The Crunchy Operator is one of the first 3 operators ever developed
+- The Operator was built from many years of experience with the technology
 - In addition we listened closely our clients and how their and other
-  development worlds were evolving.
+  development worlds were evolving
 - This great history, decades of experience, and observing the evolution
   of development and IT operations all serves as fuel for driving innovation
-  in our Operator solution.
+  in our Operator solution
 
 ## Slide 5: Crunchy Postgres for Kubernetes
+
 > Determine exposure to Postgres, Kubernetes
 
 - What is your experience with PostgreSQL today?
 - Do you have any stateful applications deployed in Kubernetes?
 - Have you used our Operator before?
 
-- Agenda or goals for the meeting.
+- Agenda or goals for the meeting
 
 ## Slide 6: Easy to Get Started
 > Show the GitHub Repository
@@ -188,7 +192,9 @@ environment: **Imperative** and **Declarative**
   - Step by step process on how to get your infrastructure configured to a desired state.
   - `yum install...`, config wizard, allocate storage, etc.
   - Can be complex
-  - Configuration creep. How do you know that the thousands of databases are all
+  - Often relies on one, or maybe a few people, running commands or scripts that
+    go undocumented, or kept out of version control
+  - Configuration creep: How do you know that all your databases are all
     the same?
   - Process does not scale very well
 - Declarative
@@ -242,7 +248,7 @@ echo $MASTER
 kubectl exec -c database -n finance -it $MASTER -- bash
 
 psql -c "alter user postgres with password 'Welcome1'"
-$PGROOT/bin/pgbench --initialize --scale=10 acctdev; $PGROOT/bin/pgbench --time=300  acctdev
+$PGROOT/bin/pgbench --initialize --scale=10 acctdev; $PGROOT/bin/pgbench --time=300 acctdev
 ```
 
 > PAUSE FOR QUESTIONS
