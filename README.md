@@ -23,7 +23,7 @@ sudo vi /etc/hosts
 
 ## [-] Setup Terminal:
 ```
-oc login …
+kc login …
 
 cd /app/k8s/crunchy/pgo/v5/pgodemo/openshift|rancher/postgres-operator-examples
 ```
@@ -41,7 +41,7 @@ First make sure there are no postgresclusters still active:
 
 Delete operator:
 
-    kubectl delete -k install
+    kubectl delete -k install/default
 
 
 ## [-] Create Namespaces:
@@ -54,7 +54,8 @@ kubectl create namespace keycloak
 ```
 
 ## [-] Update Manifest for OpenShift (if applicable):
-- For each postgres manifest, ensure that openshift key is set to true if running on OpenShift, otherwise set to false.
+- For each postgres manifest, ensure that openshift key is set to
+  `true` if running on OpenShift, otherwise set to `false`
 - For monitoring, ensure that `fsGroup` is commented out in all `deploy*` yaml files if on OpenShift.
 - Change kustomization manifest for monitoring to use pgmonitor namespace.
 
@@ -75,40 +76,62 @@ kubectl create namespace keycloak
 ## Slide 2: About Me
 > Answer the question: Why should I listen to you?
 
-My name is Brian Pace.  I am a Sr. Data Architect here at Crunchy Data.  With 30+ years of database experience in designing, tuning, supporting, and running databases at an enterprise scale, I know have the privilege to partner that experience with our customers.  In my role here at Crunchy I get to work closely with of our large enterprise customers, and even some of our embedded customers, who are running Postgres inside of containers on various Kubernetes platforms.
+My name is Roberto Mello and I’m a Solutions Architect for Crunchy Data.
+Over the last 20 years I’ve worked in several enterprise database,
+development and management roles. At Crunchy I help customers deploy
+Crunchy Data Postgres solutions into their infrastructure and application
+stack, including the Postgres Operator for Kubernetes, helping them have
+the best experience with Postgres so they can focus on their business needs.
 
 ## Slide 3: Crunchy Data
 > Having the right partner ensures a higher degree of success...
 > Establish credibility of Crunchy Data with Postgres
 
-- Regardless of where you are at on your journey to containers, running stateful applications in containers creates some unique opportunities.  
+In the on-premises bare-metal world, DBAs had to worry about setting up,
+configuring and baby-sitting everything from the servers, to disks, SANs, 
+operating system parameters, etc
 
-- The key to success in running a database inside of a container is have a great partner who understands both Kubernetes and the database inside and out.
-		
+The container world brings opportunities and flexibility, but running stateful
+applications in containers also requires specific skills. 
+
+Regardless of where you in that journey, the key to success is having a
+great partner who understands both Kubernetes and the database inside and out.
+
 ### Postgres Background
-- **Our business is Postgres!**
+**Our business is Postgres!**
 - We contribute about a significant portion of the ongoing Postgres code.
-- Several Crunchy Data team members are members of the Postgres Global development Group Core Team and/or are Major Contributors
-- Many advanced components like pgBackRest, pgMonitor, JDBC Driver, etc. that are key components in the overall Postgres ecosystem are authored and maintained by Crunchy Data.
-- For a lot of our team, the experience with Postgres goes back very close to its original release to the open source community in 1996. 
+- Several Crunchy Data team members are members of the Postgres Global
+  development Group Core Team and/or are Major Contributors
+- Many advanced components like pgBackRest, pgMonitor, JDBC Driver, etc.
+  that are key components in the overall Postgres ecosystem are authored
+  and maintained by Crunchy Data.
+- For a lot of our team, the experience with Postgres goes back very close
+  to its original release to the open source community in 1996. 
 
 ## Slide 4: Crunchy Postgres for Kubernetes
 > Establish credibility with Operators and Kubernetes
 
 ### Containers Background
-- For Crunchy, this journey began back in 2014 when containers were then called Cartridges.
-- Started asking the question, "Can we and even should we run Postgres inside of containers?"
-- If so, what would be the best practices for doing so…
-- Around this same time is when Google released Kubernetes as an open source orchestrator for containers.
-- At Crunchy, we recognized the value of Kubernetes and invested heavily in developing an Operator that will automate various life cycles of Postgres inside of Kubernetes.
+- In 2014, when containers were then called Cartridgesm Crunchy 
+  started asking the question: "Can we and even should we run Postgres
+  inside containers?"
+- If so, what would be the best practices for doing so?
+- Around this same time Google released Kubernetes as an open source
+  orchestrator for containers.
+- Crunchy recognized the value of Kubernetes and invested heavily
+  in developing a Kubernetes operator to automate various life cycles
+  and apply its expertise in best practices around Postgres in Kubernetes.
 
 ### Operator Background
-- In 2016, the development of the Operator officially began.
-- After 1 year of development, the operator was released for GA in 2017 and has been evolving ever since.
+- In 2016, the development of the Operator officially began and was released
+  for GA in 2017, with continuous improvements ever since.
 - The Crunchy Operator is one of the first 3 operators ever developed.  
 - The Operator was built from many years of experience with the technology.
-- In addition we listened closely our clients and how their and other development worlds were evolving.
-- This great history, decades of experience, and observing the evolution of development and IT operations all serves as fuel for driving innovation in our Operator solution.
+- In addition we listened closely our clients and how their and other
+  development worlds were evolving.
+- This great history, decades of experience, and observing the evolution
+  of development and IT operations all serves as fuel for driving innovation
+  in our Operator solution.
 
 ## Slide 5: Crunchy Postgres for Kubernetes
 > Determine exposure to Postgres, Kubernetes
@@ -124,8 +147,9 @@ My name is Brian Pace.  I am a Sr. Data Architect here at Crunchy Data.  With 30
 > Deploy the Operator
 
 ```
-oc apply -k kustomize/install
-oc get pods -n postgres-operator
+kc apply -k install/namespace
+kc apply --server-side -k install/default
+kc get pods -n postgres-operator
 
 kubectl apply -k kustomize/install
 kubectl get pods -n postgres-operator
@@ -133,8 +157,21 @@ kubectl get pods -n postgres-operator
 
 > Deploy pgMonitor
 ```
-kubectl apply -k kustomize/monitoring -n pgmonitor
-kubectl get pods -n pgmonitor
+kubectl apply -k kustomize/monitoring
+# kubectl get pods -n pgmonitor
+```
+
+> Patch the spec to include the LoadBalancer service for Grafana, so it can be accessed externally
+```bash
+kubectl patch service crunchy-grafana -p '{"spec":{"type": "LoadBalancer"}}'
+```
+
+Show monitoring pods in k9s
+
+Get the external IP address of the Grafana service either by looking for the crunchy-granafa pod in the output of kubectl get services or run this to get the IP address directly:
+```bash
+kubectl get services -l name="crunchy-grafana" \
+  -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
 ```
 
 **Now that was Easy**
@@ -173,7 +210,9 @@ kubectl apply -k acctdev
 
 >   Exec into Primary Pod, load data, and start benchmark
 ```
-kubectl exec -c database -n finance -it $(kubectl get pod -l postgres-operator.crunchydata.com/role=master -o name -n finance) -- bash
+MASTER=$(kubectl get pod -l postgres-operator.crunchydata.com/role=master -o name -n finance)
+echo $MASTER
+kubectl exec -c database -n finance -it $MASTER -- bash
 
 psql -c "alter user postgres with password 'Welcome1'"
 $PGROOT/bin/pgbench --initialize --scale=10 acctdev; $PGROOT/bin/pgbench --time=300  acctdev
@@ -187,8 +226,8 @@ $PGROOT/bin/pgbench --initialize --scale=10 acctdev; $PGROOT/bin/pgbench --time=
 - Wait until transactions start to flow through
 
 ## Slide 8:  Monitoring
--   Production grade starts with good monitoring.
--   Talk through slide and show various monitoring pages.
+- Production grade starts with good monitoring.
+- Talk through slide and show various monitoring pages.
 -	Things to Highlight
 	- POD Details: resource utilization from within the cgroup
 	- PostgreSQL Details
@@ -327,10 +366,10 @@ kubectl apply -k acctdev -n finance
 
 ## Install ArgoCD
 ```
-oc create namespace argocd
-oc apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-oc patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
-oc get secret -n argocd argocd-initial-admin-secret  --template={{.data.password}} | base64 -d
+kc create namespace argocd
+kc apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kc patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+kc get secret -n argocd argocd-initial-admin-secret  --template={{.data.password}} | base64 -d
 ```
 
 If not running on OpenShift or environment that does not have a load balancer:

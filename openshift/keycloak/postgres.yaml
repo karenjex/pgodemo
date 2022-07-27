@@ -4,17 +4,22 @@ metadata:
   name: keycloakdb
   namespace: keycloak
 spec:
-  image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.5-0
-  openshift: true
+  ###################################################################
+  ##  General Information about PostgreSQL
+  ###################################################################
+  # crunchy-postgres:ubi8-13.5-0
+  # crunchy-postgres:ubi8-13.6-0
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.4-0
+  openshift: false
   port: 5432
-  postgresVersion: 13
+  postgresVersion: 14
   instances:
     - name: 'pgc'
       replicas: 2
-      resources:
-        limits:
-          cpu: 1.0
-          memory: 1Gi
+      #resources:
+      #  limits:
+      #    cpu: 1.0
+      #    memory: 1Gi
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
@@ -24,7 +29,7 @@ spec:
 
   backups:
     pgbackrest:
-      image: registry.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.36-0
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.38-2
       repos:
       - name: repo1
         volume:
@@ -38,5 +43,5 @@ spec:
   monitoring:
     pgmonitor:
       exporter:
-        image: registry.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.5-0
+        image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.1.1-0
 
