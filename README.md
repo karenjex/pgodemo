@@ -161,19 +161,6 @@ kubectl apply -k kustomize/monitoring
 # kubectl get pods -n pgmonitor
 ```
 
-> Patch the spec to include the LoadBalancer service for Grafana, so it can be accessed externally
-```bash
-kubectl patch service crunchy-grafana -p '{"spec":{"type": "LoadBalancer"}}'
-```
-
-Show monitoring pods in k9s
-
-Get the external IP address of the Grafana service either by looking for the crunchy-granafa pod in the output of kubectl get services or run this to get the IP address directly:
-```bash
-kubectl get services -l name="crunchy-grafana" \
-  -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
-```
-
 **Now that was Easy**
 
 ## Slide 7: Fully Declarative
@@ -206,7 +193,28 @@ kubectl apply -k acctdev
 kubectl apply -k acctdev
 ```
 
->   Show PODs in OpenShift or Rancher Console
+>   Show PODs in OpenShift or Rancher Console or k9s
+
+> Patch the monitoring spec to include the LoadBalancer service for Grafana,
+so it can be accessed externally
+
+```bash
+kubectl patch service crunchy-grafana -p '{"spec":{"type": "LoadBalancer"}}'
+```
+
+Show monitoring pods in k9s
+
+Get the external IP address of the Grafana service either by looking for the
+`crunchy-granafa` pod in the output of `kubectl get services` or run this to
+get the IP address directly:
+
+```bash
+kubectl get services -l name="crunchy-grafana" \
+  -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
+```
+
+Head to `<GRAFANA IP>:3000`, login as admin/admin, set a new password, click on the 
+magnifying glass (top left), and `PostgreSQLDetails`
 
 >   Exec into Primary Pod, load data, and start benchmark
 ```
@@ -236,7 +244,7 @@ $PGROOT/bin/pgbench --initialize --scale=10 acctdev; $PGROOT/bin/pgbench --time=
 ## Slide 9:  Auto Management and Healing
 -   Production grade continues with High Availability
 -   3 Levels of High Availability: Kubernetes, Operator, Postgres
--   These levels are **inpendant** of each other
+-   These levels are **independent** of each other
 
 HA is occurring at three levels:
 - Level 1:  Kubernetes
@@ -279,12 +287,15 @@ ls
 > Demonstrate rolling minor version upgrade.
 > Talk about ease of upgrading Operator without impacting Postgres.
 
-- Now that we have seen the HA in a disaster scenario, let's look at it in more of a planned scenario
+- Now that we have seen the HA in a disaster scenario, let's look at it
+  in more of a planned scenario
 	
-- In this example we are going to perform a Postgres upgrade due to a recent security alert
-- This could have been a change like adding a replica, changing resources or Postgres parameters….
+- In this example we are going to perform a Postgres upgrade due to a
+  recent security alert
+- This could have been a change like adding a replica, changing resources or
+  Postgres parameters….
 		
->   In Jmeter, look in 'View Results Tree' and catch one of the 99sPostgresVersion outputs to see version.
+> In Jmeter, look in 'View Results Tree' and catch one of the 99sPostgresVersion outputs to see version.
 
 >   Edit the postgres.yaml for acctdev and modify version/image from 13.5 to 13.6
 
@@ -305,18 +316,23 @@ kubectl apply -k acctdev -n finance
 > Use ArgoCD to deploy Keycloak
 > Use ArgoCD to deploy payments database with overlays
 
-- As you can see, with this Declarative Postgres approach and the powerful automation, the Operator Built for GitOps.
+- As you can see, with this Declarative Postgres approach and the powerful automation,
+  the Operator Built for GitOps.
 		
-- Let's see the power of being built for GitOps in action as we deploy an entire application stack.
+- Let's see the power of being built for GitOps in action as we deploy an entire
+  application stack.
 		
-- In this example, we are going to deploy Keycloak which requires a Postgres database in the backend.
+- In this example, we are going to deploy Keycloak which requires a Postgres database
+  in the backend.
 
 >   Show the manifest for the keycloak and postgres.
 
->   - Highlight how the Keycloak application is getting database information (userid/password) from the secret.
->   - This is huge as it avoids passing around a password that someone could use to bypass the application and perform actions in the database.
+> Highlight how the Keycloak application is getting database information (userid/password) from the secret.
+
+- This is huge as it avoids passing around a password that someone could use
+  to bypass the application and perform actions in the database.
 		
->   Using Argo, create an application called keycloak and deploy the stack (sync).
+> Using Argo, create an application called keycloak and deploy the stack (sync).
 
 	Navigate to Application page (top icon on navigation bar)
 	Click on New App button.
@@ -377,5 +393,9 @@ If not running on OpenShift or environment that does not have a load balancer:
 kc patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
 ```
 
+Delete Argo after demo:
+```
+kc delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
 ## GitOps
 https://www.gitops.tech/
