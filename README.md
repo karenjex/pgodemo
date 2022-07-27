@@ -1,4 +1,4 @@
-# Operator Demo v5.0.4
+# Operator Demo v5.1.1
 Preference is to perform all demos using OpenShift unless the client is using a specific environment that you can mirror for the demo (i.e. Rancher)
 
 # Environment Setup:
@@ -34,23 +34,25 @@ kc patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
 
 ## [-] Setup Terminal:
 ```
-kc login …
+kc login...
 
-cd /app/k8s/crunchy/pgo/v5/pgodemo/openshift|rancher/postgres-operator-examples
+cd pgodemo/openshift
+cd rancher/postgres-operator-examples
 ```
 
 ## [-] Clean Up Environment:
 - Remove applications from Argo
 - Remove all postgres clusters
-- Ensure argo is connected to github.
+- Ensure argo is connected to github
 - Uninstall pgMonitor
 
 ## [-] Delete Operator
-First make sure there are no postgresclusters still active:
+
+1. Make sure there are no postgresclusters still active
 
     kubectl get postgresclusters --all-namespaces
 
-Delete operator:
+2. Delete operator
 
     kubectl delete -k install/default
 
