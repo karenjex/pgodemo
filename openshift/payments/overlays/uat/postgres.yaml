@@ -3,12 +3,15 @@ kind: PostgresCluster
 metadata:
   name: payments
 spec:
-  image: registry.crunchydata.com/crunchydata/crunchy-postgres:ubi8-13.6-0
-  postgresVersion: 13
+  ###################################################################
+  ##  General Information about PostgreSQL
+  ###################################################################
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.4-0
+  postgresVersion: 14
 
   backups:
     pgbackrest:
-      image: registry.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.36-0
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.38-2
       repos:
       - name: repo1
         schedules:
@@ -24,4 +27,4 @@ spec:
   monitoring:
     pgmonitor:
       exporter:
-        image: registry.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.5-0
+        image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.1.1-0
