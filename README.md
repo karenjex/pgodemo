@@ -1,5 +1,6 @@
 # Operator Demo v5.1.1
-Preference is to perform all demos using OpenShift unless the client is using a specific environment that you can mirror for the demo (i.e. Rancher)
+
+The demo in this section is meant to be used with GKE (Google Kubernetes Engine).
 
 # Environment Setup:
 
@@ -76,8 +77,8 @@ kubectl create namespace keycloak
 - Change kustomization manifest for monitoring to use pgmonitor namespace
 
 ## [-] Setup Jmeter
-- Start Jmeter
-- Open Accounting.jmx test
+- Start Jmeter (the script below opens Accounting.jmx test suite)
+```./gke/run-jmeter.sh```
 - Clear all (broom icons) previous runs
 
 ## [-] Prepare terminal windows:
@@ -278,7 +279,7 @@ HA is occurring at three levels:
 	- Typical Kubernetes management.  If I deleted a pod that was generated from a
     deployment/stateful set, Kube will automatically respawn that pod.
 		
-- Level 2:** Operator**
+- Level 2: ** Operator**
 	- At this level the operator is ensuring the environment always looks like our
     manifest/description
 	- Using OpenShift console/k9, demonstrate HA by deleting the acctdev-primary service
